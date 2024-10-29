@@ -23,6 +23,12 @@ val interFont = FontFamily(
     Font(googleFont = interGoogleFontRequest, fontProvider = provider)
 )
 
+val latoGoogleFontRequest = GoogleFont("Lato")
+
+val latoFont = FontFamily(
+    Font(googleFont = latoGoogleFontRequest, fontProvider = provider)
+)
+
 
 // Set of Material typography styles to start with
 val Typography = Typography(
