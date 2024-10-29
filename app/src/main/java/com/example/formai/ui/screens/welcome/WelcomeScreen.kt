@@ -1,6 +1,5 @@
 package com.example.formai.ui.screens.welcome
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,21 +15,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.formai.R
+import com.example.formai.ui.screens.AppButton
 import com.example.formai.ui.theme.interFont
 
 
@@ -79,7 +75,7 @@ fun WelcomeScreen() {
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()
             ) {
-                WelcomePageButton(
+                AppButton(
                     modifier = Modifier
                         .width(175.dp)
                         .height(74.dp)
@@ -88,7 +84,7 @@ fun WelcomeScreen() {
                     contentColor = Color.Black,
                     containerColor = Color(0xFFF0FD3D),
                     shape = RoundedCornerShape(30.dp),
-                    onClickNavigationRequest = { /* TODO */ },
+                    onClickAction = { /* TODO */ },
                     content = {
                         Text(
                             "Log In",
@@ -98,7 +94,7 @@ fun WelcomeScreen() {
                     },
                 )
 
-                WelcomePageButton(
+                AppButton(
                     modifier = Modifier
                         .width(175.dp)
                         .height(74.dp)
@@ -107,7 +103,7 @@ fun WelcomeScreen() {
                     contentColor = Color.White,
                     containerColor = Color.Transparent,
                     shape = RoundedCornerShape(30.dp),
-                    onClickNavigationRequest = {/* TODO */ },
+                    onClickAction = {/* TODO */ },
                     content = {
                         Text(
                             text = "Sign Up",
@@ -122,34 +118,6 @@ fun WelcomeScreen() {
     }
 }
 
-// Composable for buttons used on the welcome page
-@Composable
-fun WelcomePageButton(
-    modifier: Modifier = Modifier,
-    contentColor: Color,
-    containerColor: Color,
-    shape: Shape = RoundedCornerShape(30.dp),
-    onClickNavigationRequest: () -> Unit,
-    borderWidth: Dp = 0.dp,
-    borderColor: Color = Color.White,
-    content: @Composable () -> Unit,
-) {
-    Button(
-        onClick = onClickNavigationRequest,
-        modifier = modifier,
-        colors = ButtonColors(
-            containerColor = containerColor,
-            contentColor = contentColor,
-            disabledContentColor = contentColor,
-            disabledContainerColor = containerColor
-        ),
-        border = BorderStroke(borderWidth, borderColor),
-        shape = shape,
-    ) {
-        content()
-    }
-}
-
 @Preview
 @Composable
 fun WelcomeScreenPreview() {
@@ -159,12 +127,12 @@ fun WelcomeScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun LoginButtonPreview() {
-    WelcomePageButton(
+    AppButton(
         modifier = Modifier.width(160.dp),
         contentColor = Color.Black,
         containerColor = Color(0xFFF0FD3D),
         shape = RoundedCornerShape(30.dp),
-        onClickNavigationRequest = {},
+        onClickAction = {},
         content = { Text(text = "Log In") },
     )
 }
@@ -174,12 +142,12 @@ fun LoginButtonPreview() {
 )
 @Composable
 fun SignUpButtonPreview() {
-    WelcomePageButton(
+    AppButton(
         modifier = Modifier.width(160.dp),
         contentColor = Color.White,
         containerColor = Color.Transparent,
         shape = RoundedCornerShape(30.dp),
-        onClickNavigationRequest = {},
+        onClickAction = {},
         content = { Text(text = "Log In") },
     )
 }
