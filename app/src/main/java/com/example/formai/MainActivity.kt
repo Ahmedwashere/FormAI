@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.formai.ui.screens.login.LoginScreen
 import com.example.formai.ui.screens.welcome.WelcomeScreen
 import com.example.formai.ui.theme.FormAITheme
 
@@ -14,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FormAITheme {
-                LoginScreen()
+                WelcomeScreen()
             }
         }
     }
