@@ -1,9 +1,12 @@
 package com.example.formai.ui.screens.login
 
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
@@ -15,9 +18,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.formai.R
 import com.example.formai.ui.screens.AppButton
 import com.example.formai.ui.theme.latoFont
 
@@ -58,7 +63,7 @@ import com.example.formai.ui.theme.latoFont
 @Composable
 fun LoginScreen() {
     Column {
-
+        PasswordOutlinedTextFieldPreview()
     }
 }
 
@@ -73,14 +78,16 @@ fun EmailAndPasswordTextBoxes(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: @Composable () -> Unit
+    placeholder: @Composable () -> Unit,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         shape = RoundedCornerShape(30),
-        placeholder = placeholder
+        placeholder = placeholder,
+        trailingIcon = trailingIcon,
     )
 }
 
@@ -98,6 +105,48 @@ fun EmailOutlinedTextFieldPreview() {
         modifier = Modifier.padding(8.dp),
         placeholder = { Text("Enter your email", fontWeight = FontWeight.Light) })
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PasswordOutlinedTextFieldPreview() {
+    // This returns a value that can cause UI recompositions for us
+    var email by remember { mutableStateOf("") }
+    var see_password by remember { mutableStateOf(false) }
+
+    EmailAndPasswordTextBoxes(value = email,
+        onValueChange = {
+            email = it
+            Log.d("Email", "Value of email is: $email")
+        },
+        modifier = Modifier.padding(8.dp),
+        placeholder = { Text("Enter your password", fontWeight = FontWeight.Light) },
+        trailingIcon = {
+            if(!see_password) {
+                Image(
+                    painter = painterResource(id = R.drawable.closed_eye),
+                    contentDescription = "closed eye ui icon",
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(end = 2.dp)
+                        .clickable {
+                            see_password = !see_password
+                            Log.d("Password", "We don't see the password")
+                        }
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = R.drawable.open_eye),
+                    contentDescription = "closed eye ui icon",
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(end = 2.dp)
+                        .clickable {
+                            see_password = !see_password
+                            Log.d("Password", "We see the password")
+                        })
+            }
+        })
 }
 
 /**
@@ -126,4 +175,7 @@ fun LoginButtonPreview() {
             Text(text = "Login", fontFamily = latoFont)
         })
 }
+
+
+
 
