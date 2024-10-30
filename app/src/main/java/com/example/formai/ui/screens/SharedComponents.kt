@@ -1,6 +1,5 @@
 package com.example.formai.ui.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +35,54 @@ import com.example.formai.ui.theme.latoFont
 /**
  * This file will store shared composables/components which are used across more than one screen.
  */
+@Composable
+fun SocialIconsRow(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier.then(Modifier
+            .fillMaxWidth()
+            .height(65.dp)),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Box(modifier = Modifier
+            .size(56.dp, 48.dp)
+            .align(Alignment.CenterVertically)
+            .background(Color(0xFFedd5e3))) {
+            Image(
+                painter = painterResource(id = R.drawable.google),
+                contentDescription = "Google Icon",
+                modifier = Modifier.size(24.dp)
+            )
+        }
+
+        Box(modifier = Modifier
+            .size(56.dp, 48.dp)
+            .align(Alignment.CenterVertically)
+            .background(Color(0xFFedd5e3))) {
+            Image(
+                painter = painterResource(id = R.drawable.facebook),
+                contentDescription = "Google Icon",
+                modifier = Modifier.size(24.dp)
+            )
+        }
+
+        Box(modifier = Modifier
+            .size(56.dp, 48.dp)
+            .align(Alignment.CenterVertically)
+            .background(Color(0xFFedd5e3))) {
+            Image(
+                painter = painterResource(id = R.drawable.twitter_black),
+                contentDescription = "Google Icon",
+                modifier = Modifier.size(24.dp),
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SocialIconsPreview() {
+    SocialIconsRow()
+}
 
 /**
  * Composable used within both the Login and signup page for the row with box and
@@ -48,7 +95,8 @@ fun OrWithSocialsRow(text: String, modifier: Modifier = Modifier) {
             .then(
                 Modifier
                     .fillMaxWidth()
-                    .height(40.dp)),
+                    .height(40.dp)
+            ),
         Arrangement.SpaceEvenly
     ) {
         Box(
@@ -155,6 +203,10 @@ fun CircularAppLogoPreview() {
 @Preview(showSystemUi = true)
 @Composable
 fun BackButtonPreview() {
-    BackButton(modifier = Modifier.size(26.dp, 30.dp)
-        .padding(8.dp).fillMaxSize())
+    BackButton(
+        modifier = Modifier
+            .size(26.dp, 30.dp)
+            .padding(8.dp)
+            .fillMaxSize()
+    )
 }

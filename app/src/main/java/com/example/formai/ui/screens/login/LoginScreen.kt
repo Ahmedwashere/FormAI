@@ -2,12 +2,9 @@ package com.example.formai.ui.screens.login
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,11 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,6 +34,7 @@ import com.example.formai.ui.screens.AppButton
 import com.example.formai.ui.screens.BackButton
 import com.example.formai.ui.screens.CircularAppLogo
 import com.example.formai.ui.screens.OrWithSocialsRow
+import com.example.formai.ui.screens.SocialIconsRow
 import com.example.formai.ui.theme.latoFont
 
 /*
@@ -127,8 +123,7 @@ fun LoginScreen() {
                 .align(Alignment.CenterHorizontally),
             placeholder = {
                 Text(
-                    "Enter your email",
-                    fontWeight = FontWeight.Light
+                    "Enter your email", fontWeight = FontWeight.Light
                 )
             })
 
@@ -145,11 +140,12 @@ fun LoginScreen() {
                 .align(Alignment.CenterHorizontally),
             placeholder = {
                 Text(
-                    "Enter your password",
-                    fontWeight = FontWeight.Light
+                    "Enter your password", fontWeight = FontWeight.Light
                 )
-            }
-        ) { TrailingIcon(seePassword) { seePassword = !seePassword } }
+            },
+            seePassword = seePassword,
+
+            ) { TrailingIcon(seePassword) { seePassword = !seePassword } }
 
         Text(
             "Forget your password?",
@@ -172,7 +168,7 @@ fun LoginScreen() {
 
         OrWithSocialsRow(text = "Or Login With", modifier = Modifier.padding(top = 24.dp))
 
-
+        SocialIconsRow(modifier = Modifier.padding(8.dp))
     }
 }
 
@@ -188,6 +184,7 @@ fun EmailAndPasswordTextBoxes(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: @Composable () -> Unit,
+    seePassword: Boolean = false,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
@@ -197,17 +194,17 @@ fun EmailAndPasswordTextBoxes(
         shape = RoundedCornerShape(30),
         placeholder = placeholder,
         trailingIcon = trailingIcon,
+        visualTransformation = if (seePassword) VisualTransformation.None
+        else PasswordVisualTransformation()
     )
 }
 
 @Composable
 fun TrailingIcon(
-    seePassword: Boolean,
-    onStateChange: () -> Unit
+    seePassword: Boolean, onStateChange: () -> Unit
 ) {
     if (!seePassword) {
-        Image(
-            painter = painterResource(id = R.drawable.closed_eye),
+        Image(painter = painterResource(id = R.drawable.closed_eye),
             contentDescription = "closed eye ui icon",
             modifier = Modifier
                 .size(30.dp)
@@ -215,11 +212,9 @@ fun TrailingIcon(
                 .clickable {
                     onStateChange()
                     Log.d("Password", "We don't see the password")
-                }
-        )
+                })
     } else {
-        Image(
-            painter = painterResource(id = R.drawable.open_eye),
+        Image(painter = painterResource(id = R.drawable.open_eye),
             contentDescription = "closed eye ui icon",
             modifier = Modifier
                 .size(30.dp)
@@ -269,8 +264,7 @@ fun PasswordOutlinedTextFieldPreview() {
         placeholder = { Text("Enter your password", fontWeight = FontWeight.Light) },
         trailingIcon = {
             if (!see_password) {
-                Image(
-                    painter = painterResource(id = R.drawable.closed_eye),
+                Image(painter = painterResource(id = R.drawable.closed_eye),
                     contentDescription = "closed eye ui icon",
                     modifier = Modifier
                         .size(30.dp)
@@ -278,11 +272,9 @@ fun PasswordOutlinedTextFieldPreview() {
                         .clickable {
                             see_password = !see_password
                             Log.d("Password", "We don't see the password")
-                        }
-                )
+                        })
             } else {
-                Image(
-                    painter = painterResource(id = R.drawable.open_eye),
+                Image(painter = painterResource(id = R.drawable.open_eye),
                     contentDescription = "closed eye ui icon",
                     modifier = Modifier
                         .size(30.dp)
