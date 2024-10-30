@@ -37,40 +37,6 @@ import com.example.formai.ui.screens.OrWithSocialsRow
 import com.example.formai.ui.screens.SocialIconsRow
 import com.example.formai.ui.theme.latoFont
 
-/*
-    General Structure:
-        - A Column that contains all the elements.
-
-        // Hard code this
-        - An Image Element within a circle shape
-
-        // Hard code
-        - A text composable for the Welcome Back part
-
-        - a Login text composable
-
-        // Make a composable function for this
-        // Look into documentation for the differences.
-        - Two text field composables:
-            1. email - placeholder - Enter your email
-            2. password - enter your password
-
-        // Composable function for this
-        - A forget your password button
-
-        // use ***WelcomeScreen button composable***
-        -A login button
-
-        // Hard code these in the column
-        - a row composable:
-            - line, text composable, line
-
-        // Make a composable for the boxes.
-        // Make it so that the onClick and image are dynamic here
-        - a row composable:
-            -three boxes with images nested within the boxes. Image should take up max width.
- */
-
 @Composable
 fun LoginScreen() {
 
@@ -131,7 +97,7 @@ fun LoginScreen() {
             value = password,
             onValueChange = {
                 password = it
-                Log.d("Email", "Value of email is: $password")
+                Log.d("Password", "Value of the password is: $password")
             },
             modifier = Modifier
                 .padding(top = 32.dp)
@@ -143,6 +109,7 @@ fun LoginScreen() {
                     "Enter your password", fontWeight = FontWeight.Light
                 )
             },
+            isPassword = true,
             seePassword = seePassword,
 
             ) { TrailingIcon(seePassword) { seePassword = !seePassword } }
@@ -184,6 +151,7 @@ fun EmailAndPasswordTextBoxes(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: @Composable () -> Unit,
+    isPassword: Boolean = false,
     seePassword: Boolean = false,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
@@ -194,8 +162,15 @@ fun EmailAndPasswordTextBoxes(
         shape = RoundedCornerShape(30),
         placeholder = placeholder,
         trailingIcon = trailingIcon,
-        visualTransformation = if (seePassword) VisualTransformation.None
-        else PasswordVisualTransformation()
+        visualTransformation = if (!isPassword) {
+            VisualTransformation.None
+        } else {
+            if (seePassword) {
+                VisualTransformation.None
+            } else {
+                PasswordVisualTransformation()
+            }
+        }
     )
 }
 
