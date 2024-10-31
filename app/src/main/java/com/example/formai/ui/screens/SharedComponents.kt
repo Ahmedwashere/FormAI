@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -185,7 +186,7 @@ fun CircularAppLogo(modifier: Modifier = Modifier) {
 fun BackButton(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier) {
+    Surface(modifier = modifier) {
         Image(
             painter = painterResource(id = R.drawable.back_arrow),
             contentDescription = "Back arrow for navigation",
@@ -200,13 +201,12 @@ fun CircularAppLogoPreview() {
     CircularAppLogo()
 }
 
-@Preview(showSystemUi = true)
+@Preview()
 @Composable
 fun BackButtonPreview() {
     BackButton(
         modifier = Modifier
             .size(26.dp, 30.dp)
-            .padding(8.dp)
             .fillMaxSize()
     )
 }
