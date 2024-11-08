@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
+    kotlin("kapt")
 }
 
 android {
@@ -69,6 +72,17 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.firebase.auth)
     implementation(libs.androidx.ui.text.google.fonts)
+    //Navigation
+    //Hilt
+    implementation(libs.hilt.android.v2442)
+    kapt(libs.hilt.android.compiler)
+    //Hilt Navigation Compose
+    implementation(libs.androidx.hilt.navigation.compose.v100)
+    //Firebase
+    implementation(libs.firebase.auth)
+    //Serialization
+    implementation(libs.serialization)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
