@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.formai.navigation.Route
 import com.example.formai.ui.screens.AppButton
 import com.example.formai.ui.screens.BackButton
 import com.example.formai.ui.screens.CircularAppLogo
@@ -35,7 +38,9 @@ import com.example.formai.ui.theme.latoFont
 
 // This page will hold the UI for signing up
 @Composable
-fun SignupScreen() {
+fun SignupScreen(
+    navigateTo: (Route) -> Unit
+) {
 
     // Variables for recomposition
     var email by remember { mutableStateOf("") }
@@ -43,12 +48,14 @@ fun SignupScreen() {
     var seePassword by remember { mutableStateOf(false) }
     var repeatPassword by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         Box(modifier = Modifier.fillMaxWidth()) {
             BackButton(
                 modifier = Modifier
                     .size(26.dp, 30.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                navigateTo,
+                Route.Welcome
             )
             CircularAppLogo(
                 modifier = Modifier
@@ -146,5 +153,5 @@ fun SignupScreen() {
 @Preview(showSystemUi = true)
 @Composable
 fun SignupScreenPreview() {
-    SignupScreen()
+    SignupScreen { }
 }

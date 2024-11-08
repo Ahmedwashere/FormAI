@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.formai.R
+import com.example.formai.navigation.Route
 import com.example.formai.ui.theme.latoFont
 
 /**
@@ -39,26 +41,49 @@ import com.example.formai.ui.theme.latoFont
 @Composable
 fun SocialIconsRow(modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier.then(Modifier
-            .fillMaxWidth()
-            .height(65.dp)),
+        modifier = modifier.then(
+            Modifier
+                .fillMaxWidth()
+                .height(65.dp)
+        ),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Box(modifier = Modifier
-            .size(56.dp, 48.dp)
-            .align(Alignment.CenterVertically)
-            .background(Color(0xFFedd5e3))) {
+        Button(
+            modifier = Modifier
+                .size(56.dp, 48.dp)
+                .align(Alignment.CenterVertically),
+            onClick = {/** TODO Add google sign in / sign up */},
+            contentPadding = PaddingValues(0.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonColors(
+                containerColor = Color(0xFFFEF7FF),
+                contentColor = Color.Transparent,
+                disabledContentColor = Color.Transparent,
+                disabledContainerColor = Color(0xFFFEF7FF)
+            ),
+            border = BorderStroke(0.5.dp, Color.Black)
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.google),
                 contentDescription = "Google Icon",
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(30.dp)
             )
         }
 
-        Box(modifier = Modifier
-            .size(56.dp, 48.dp)
-            .align(Alignment.CenterVertically)
-            .background(Color(0xFFedd5e3))) {
+        Button(
+            modifier = Modifier
+                .size(56.dp, 48.dp)
+                .align(Alignment.CenterVertically),
+            onClick = {/** TODO Add google sign in / sign up */},
+            contentPadding = PaddingValues(0.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonColors(
+                containerColor = Color(0xFFFEF7FF),
+                contentColor = Color.Transparent,
+                disabledContentColor = Color.Transparent,
+                disabledContainerColor = Color(0xFFFEF7FF)
+            )
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.facebook),
                 contentDescription = "Google Icon",
@@ -66,10 +91,20 @@ fun SocialIconsRow(modifier: Modifier = Modifier) {
             )
         }
 
-        Box(modifier = Modifier
-            .size(56.dp, 48.dp)
-            .align(Alignment.CenterVertically)
-            .background(Color(0xFFedd5e3))) {
+        Button(
+            modifier = Modifier
+                .size(56.dp, 48.dp)
+                .align(Alignment.CenterVertically),
+            onClick = {/** TODO Add google sign in / sign up */},
+            contentPadding = PaddingValues(0.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonColors(
+                containerColor = Color(0xFFFEF7FF),
+                contentColor = Color.Transparent,
+                disabledContentColor = Color.Transparent,
+                disabledContainerColor = Color(0xFFFEF7FF)
+            )
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.twitter_black),
                 contentDescription = "Google Icon",
@@ -113,8 +148,6 @@ fun OrWithSocialsRow(text: String, modifier: Modifier = Modifier) {
             fontSize = 16.sp,
             fontFamily = latoFont,
             fontWeight = FontWeight.SemiBold,
-            // Wanted to make an outline for the Or Login With part but
-            // It was too much of a pain
             modifier = Modifier.padding(top = 10.dp)
         )
 
@@ -184,14 +217,28 @@ fun CircularAppLogo(modifier: Modifier = Modifier) {
  */
 @Composable
 fun BackButton(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateTo: (Route) -> Unit,
+    route: Route
 ) {
-    Surface(modifier = modifier) {
-        Image(
-            painter = painterResource(id = R.drawable.back_arrow),
-            contentDescription = "Back arrow for navigation",
-            modifier = Modifier.fillMaxSize()
+    Button(
+        modifier = Modifier.padding(start = 4.dp, top = 16.dp),
+        onClick = { navigateTo(route) },
+        contentPadding = PaddingValues(0.dp),
+        colors = ButtonColors(
+            containerColor = Color.Transparent,
+            contentColor = Color.Transparent,
+            disabledContentColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent
         )
+    ) {
+        Surface(modifier = modifier) {
+            Image(
+                painter = painterResource(id = R.drawable.back_arrow),
+                contentDescription = "Back arrow for navigation",
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 }
 
@@ -207,6 +254,8 @@ fun BackButtonPreview() {
     BackButton(
         modifier = Modifier
             .size(26.dp, 30.dp)
-            .fillMaxSize()
+            .fillMaxSize(),
+        {},
+        Route.Welcome
     )
 }

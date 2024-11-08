@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,17 +28,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.formai.R
+import com.example.formai.navigation.Route
 import com.example.formai.ui.screens.AppButton
 import com.example.formai.ui.theme.interFont
 
 
 // UI for the WelcomeScreen of the App
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    navigateTo: (Route) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color(0xFF444444))
+            .verticalScroll(rememberScrollState())
     ) {
 
         Column {
@@ -84,7 +90,7 @@ fun WelcomeScreen() {
                     contentColor = Color.Black,
                     containerColor = Color(0xFFF0FD3D),
                     shape = RoundedCornerShape(30.dp),
-                    onClickAction = { /* TODO */ },
+                    onClickAction = { navigateTo(Route.LogIn) },
                     content = {
                         Text(
                             "Log In",
@@ -103,7 +109,7 @@ fun WelcomeScreen() {
                     contentColor = Color.White,
                     containerColor = Color.Transparent,
                     shape = RoundedCornerShape(30.dp),
-                    onClickAction = {/* TODO */ },
+                    onClickAction = { navigateTo(Route.SignUp) },
                     content = {
                         Text(
                             text = "Sign Up",
@@ -121,7 +127,7 @@ fun WelcomeScreen() {
 @Preview
 @Composable
 fun WelcomeScreenPreview() {
-    WelcomeScreen()
+    WelcomeScreen { Welcome -> }
 }
 
 @Preview(showBackground = true)
