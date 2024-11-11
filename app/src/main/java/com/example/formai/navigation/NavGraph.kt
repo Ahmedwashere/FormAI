@@ -9,6 +9,7 @@ import com.example.formai.navigation.Route.LogIn
 import com.example.formai.navigation.Route.Main
 import com.example.formai.navigation.Route.SignUp
 import com.example.formai.navigation.Route.Welcome
+import com.example.formai.ui.screens.explore.ExploreScreen
 import com.example.formai.ui.screens.login.LoginScreen
 import com.example.formai.ui.screens.signup.SignupScreen
 import com.example.formai.ui.screens.welcome.WelcomeScreen
@@ -44,6 +45,7 @@ fun navigation(): NavHostController {
 
         composable(Main.toString()) {
             /** TODO: Add the Main Screen to the Application */
+            ExploreScreen()
         }
     }
 

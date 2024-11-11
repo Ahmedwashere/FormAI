@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.formai.domain.viewmodel.AuthViewModel
 import com.example.formai.navigation.Route
 import com.example.formai.ui.screens.AppButton
 import com.example.formai.ui.screens.BackButton
@@ -39,7 +42,8 @@ import com.example.formai.ui.theme.latoFont
 // This page will hold the UI for signing up
 @Composable
 fun SignupScreen(
-    navigateTo: (Route) -> Unit
+    navigateTo: (Route) -> Unit,
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
 
     // Variables for recomposition
@@ -48,7 +52,21 @@ fun SignupScreen(
     var seePassword by remember { mutableStateOf(false) }
     var repeatPassword by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+    var authenticatedSuccessfully by authViewModel.authenticatedSuccessfully
+    LaunchedEffect(authenticatedSuccessfully) {
+        Log.d("LogIn", "Here we should navigate to a new screen as authentication is successful" +
+                "the value of our authentication success is ${authViewModel.authenticatedSuccessfully.value}")
+        if (authenticatedSuccessfully) {
+            authViewModel.clearFields()
+            navigateTo(Route.Main)
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             BackButton(
                 modifier = Modifier
@@ -75,6 +93,7 @@ fun SignupScreen(
         EmailAndPasswordTextBoxes(value = email,
             onValueChange = {
                 email = it
+                authViewModel.email.value = email
                 Log.d("Email", "Value of email is: $email")
             },
             modifier = Modifier
@@ -92,6 +111,7 @@ fun SignupScreen(
             value = password,
             onValueChange = {
                 password = it
+                authViewModel.password.value = password
                 Log.d("Password", "Value of the password is: $password")
             },
             modifier = Modifier
@@ -113,6 +133,7 @@ fun SignupScreen(
             value = repeatPassword,
             onValueChange = {
                 repeatPassword = it
+                authViewModel.confirmPassword.value = repeatPassword
                 Log.d("Password", "Value of the reentered password is: $repeatPassword")
             },
             modifier = Modifier
@@ -139,10 +160,22 @@ fun SignupScreen(
             contentColor = Color.White,
             containerColor = Color(0xFF014863),
             shape = RoundedCornerShape(15.dp),
-            onClickAction = {/* TODO 6: Implement Navigation and Signup in here*/ },
+            onClickAction = {
+                authViewModel.signUp()
+            },
             content = {
                 Text(text = "Sign Up", fontFamily = latoFont, fontSize = 16.sp)
             })
+
+        if (authViewModel.errorMessage.value != null) {
+            Text(
+                "An Error Occured with Logging In",
+                color = Color.Red, fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.CenterHorizontally).padding(8.dp)
+            )
+
+            Log.d("Authentication", "The error message is: ${authViewModel.errorMessage.value}")
+        }
 
         OrWithSocialsRow(text = "Or Sign Up With", modifier = Modifier.padding(top = 24.dp))
 
@@ -153,5 +186,5 @@ fun SignupScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun SignupScreenPreview() {
-    SignupScreen { }
+    SignupScreen(navigateTo = {})
 }

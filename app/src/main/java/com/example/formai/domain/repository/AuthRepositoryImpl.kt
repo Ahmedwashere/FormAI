@@ -1,14 +1,16 @@
 package com.example.formai.domain.repository
 
+import android.util.Log
+import com.example.formai.domain.model.Response
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
-import com.example.formai.domain.model.Response
+import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class AuthRepositoryImpl(
+class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
 ): AuthRepository {
 
@@ -20,12 +22,13 @@ class AuthRepositoryImpl(
         email: String,
         password: String
     ): SignUpResponse {
+        Log.d("SignUp", "The email and password before sending it to FIREBASE are" +
+                "(email: $email ,password: $password) ")
         return try {
             firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             Response.Success(true)
         } catch (e: Exception) {
-            Response.Failure(true)
-        }
+            Response.Error(e)        }
     }
 
     override suspend fun loginWithEmailAndPassword(email: String, password: String): LogInResponse {
@@ -33,8 +36,7 @@ class AuthRepositoryImpl(
             firebaseAuth.signInWithEmailAndPassword(email, password).await()
             Response.Success(true)
         } catch (e: Exception) {
-            Response.Failure(true)
-        }
+            Response.Error(e)        }
     }
 
     override suspend fun reloadUser(): ReloadUserResponse {
@@ -42,8 +44,7 @@ class AuthRepositoryImpl(
             firebaseAuth.currentUser?.reload()?.await()
             Response.Success(true)
         } catch (e: Exception) {
-            Response.Failure(true)
-        }
+            Response.Error(e)        }
     }
 
     override suspend fun sendPasswordResetEmail(email: String): SendPasswordResetEmailResponse {
@@ -51,7 +52,7 @@ class AuthRepositoryImpl(
             firebaseAuth.sendPasswordResetEmail(email).await()
             Response.Success(true)
         } catch (e: Exception) {
-            Response.Failure(true)
+            Response.Error(e)
         }
     }
 

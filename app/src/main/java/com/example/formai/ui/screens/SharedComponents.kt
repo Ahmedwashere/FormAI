@@ -31,7 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.formai.R
+import com.example.formai.domain.viewmodel.AuthViewModel
 import com.example.formai.navigation.Route
 import com.example.formai.ui.theme.latoFont
 
@@ -52,7 +54,7 @@ fun SocialIconsRow(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .size(56.dp, 48.dp)
                 .align(Alignment.CenterVertically),
-            onClick = {/** TODO Add google sign in / sign up */},
+            onClick = { /** TODO Add google sign in / sign up */ },
             contentPadding = PaddingValues(0.dp),
             shape = RoundedCornerShape(12.dp),
             colors = ButtonColors(
@@ -74,7 +76,7 @@ fun SocialIconsRow(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .size(56.dp, 48.dp)
                 .align(Alignment.CenterVertically),
-            onClick = {/** TODO Add google sign in / sign up */},
+            onClick = { /** TODO Add google sign in / sign up */ },
             contentPadding = PaddingValues(0.dp),
             shape = RoundedCornerShape(12.dp),
             colors = ButtonColors(
@@ -95,7 +97,7 @@ fun SocialIconsRow(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .size(56.dp, 48.dp)
                 .align(Alignment.CenterVertically),
-            onClick = {/** TODO Add google sign in / sign up */},
+            onClick = { /** TODO Add google sign in / sign up */ },
             contentPadding = PaddingValues(0.dp),
             shape = RoundedCornerShape(12.dp),
             colors = ButtonColors(
@@ -219,11 +221,15 @@ fun CircularAppLogo(modifier: Modifier = Modifier) {
 fun BackButton(
     modifier: Modifier = Modifier,
     navigateTo: (Route) -> Unit,
-    route: Route
+    route: Route,
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
     Button(
         modifier = Modifier.padding(start = 4.dp, top = 16.dp),
-        onClick = { navigateTo(route) },
+        onClick = {
+            authViewModel.clearFields()
+            navigateTo(route)
+        },
         contentPadding = PaddingValues(0.dp),
         colors = ButtonColors(
             containerColor = Color.Transparent,

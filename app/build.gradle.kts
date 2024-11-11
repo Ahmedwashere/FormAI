@@ -2,10 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
-    alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
-    kotlin("kapt")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
+
+apply(plugin = "com.google.dagger.hilt.android")
 
 android {
     namespace = "com.example.formai"
@@ -73,9 +75,10 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.ui.text.google.fonts)
     //Navigation
+    implementation("androidx.navigation:navigation-compose:2.8.3")
     //Hilt
-    implementation(libs.hilt.android.v2442)
-    kapt(libs.hilt.android.compiler)
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     //Hilt Navigation Compose
     implementation(libs.androidx.hilt.navigation.compose.v100)
     //Firebase
@@ -90,4 +93,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+kapt {
+    correctErrorTypes = true
 }

@@ -17,7 +17,7 @@ firebaseAuth = "23.1.0"
 uiTextGoogleFonts = "1.7.4"
 navigationCompose = "2.8.3"
 #Hilt
-hiltAndroid = "2.52"
+hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 #Serialization
 serialization = "1.7.3"
@@ -56,5 +56,3 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
-

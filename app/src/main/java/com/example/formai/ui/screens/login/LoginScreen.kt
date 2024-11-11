@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,7 +32,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.formai.R
+import com.example.formai.domain.viewmodel.AuthViewModel
 import com.example.formai.navigation.Route
 import com.example.formai.ui.screens.AppButton
 import com.example.formai.ui.screens.BackButton
@@ -42,7 +45,8 @@ import com.example.formai.ui.theme.latoFont
 
 @Composable
 fun LoginScreen(
-    navigateTo: (Route) -> Unit
+    navigateTo: (Route) -> Unit,
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
 
     // Variables for recomposition
@@ -50,9 +54,25 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var seePassword by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState())) {
+    //Use a launched effect function which will navigate for us when the state in the viewmodel
+    // changes
+
+    var authenticatedSuccessfully by authViewModel.authenticatedSuccessfully
+    LaunchedEffect(authenticatedSuccessfully) {
+        Log.d("LogIn", "Here we should navigate to a new screen as authentication is successful" +
+                "the value of our authentication success is ${authViewModel.authenticatedSuccessfully.value}")
+        Log.d("NAVIGATE", "The value of isAuthenticated: $authenticatedSuccessfully")
+        if (authenticatedSuccessfully) {
+            authViewModel.clearFields()
+            navigateTo(Route.Main)
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             BackButton(
                 modifier = Modifier
@@ -89,6 +109,7 @@ fun LoginScreen(
         EmailAndPasswordTextBoxes(value = email,
             onValueChange = {
                 email = it
+                authViewModel.email.value = email
                 Log.d("Email", "Value of email is: $email")
             },
             modifier = Modifier
@@ -106,6 +127,7 @@ fun LoginScreen(
             value = password,
             onValueChange = {
                 password = it
+                authViewModel.password.value = password
                 Log.d("Password", "Value of the password is: $password")
             },
             modifier = Modifier
@@ -137,10 +159,22 @@ fun LoginScreen(
             contentColor = Color.White,
             containerColor = Color(0xFF014863),
             shape = RoundedCornerShape(15.dp),
-            onClickAction = {/* TODO 1: Implement Navigation and Logging in here*/ },
+            onClickAction = {
+                authViewModel.signIn()
+            },
             content = {
                 Text(text = "Login", fontFamily = latoFont, fontSize = 16.sp)
             })
+
+        if (authViewModel.errorMessage.value != null) {
+            Text(
+                "An Error Occured with Logging In",
+                color = Color.Red, fontSize = 20.sp, fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.CenterHorizontally).padding(8.dp)
+            )
+
+            Log.d("Authentication", "The error message for login is: ${authViewModel.errorMessage.value}")
+        }
 
         OrWithSocialsRow(text = "Or Login With", modifier = Modifier.padding(top = 24.dp))
 
@@ -213,7 +247,7 @@ fun TrailingIcon(
 @Preview(showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen {}
+    LoginScreen(navigateTo = {})
 }
 
 @Preview(showBackground = true)
