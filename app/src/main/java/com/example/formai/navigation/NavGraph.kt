@@ -45,7 +45,7 @@ fun navigation(): NavHostController {
 
         composable(Main.toString()) {
             /** TODO: Add the Main Screen to the Application */
-            ExploreScreen()
+            ExploreScreen() {}
         }
     }
 

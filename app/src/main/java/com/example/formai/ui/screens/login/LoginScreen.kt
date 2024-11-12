@@ -37,7 +37,7 @@ import com.example.formai.R
 import com.example.formai.domain.viewmodel.AuthViewModel
 import com.example.formai.navigation.Route
 import com.example.formai.ui.screens.AppButton
-import com.example.formai.ui.screens.BackButton
+import com.example.formai.ui.screens.BackButtonLogInOrSignUp
 import com.example.formai.ui.screens.CircularAppLogo
 import com.example.formai.ui.screens.OrWithSocialsRow
 import com.example.formai.ui.screens.SocialIconsRow
@@ -57,7 +57,7 @@ fun LoginScreen(
     //Use a launched effect function which will navigate for us when the state in the viewmodel
     // changes
 
-    var authenticatedSuccessfully by authViewModel.authenticatedSuccessfully
+    val authenticatedSuccessfully by authViewModel.authenticatedSuccessfully
     LaunchedEffect(authenticatedSuccessfully) {
         Log.d("LogIn", "Here we should navigate to a new screen as authentication is successful" +
                 "the value of our authentication success is ${authViewModel.authenticatedSuccessfully.value}")
@@ -74,7 +74,7 @@ fun LoginScreen(
             .verticalScroll(rememberScrollState())
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            BackButton(
+            BackButtonLogInOrSignUp(
                 modifier = Modifier
                     .size(26.dp, 30.dp)
                     .fillMaxWidth(),

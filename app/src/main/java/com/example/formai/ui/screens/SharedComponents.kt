@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -174,6 +175,7 @@ fun AppButton(
     onClickAction: () -> Unit,
     borderWidth: Dp = 0.dp,
     borderColor: Color = Color.White,
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable () -> Unit,
 ) {
     Button(
@@ -185,6 +187,7 @@ fun AppButton(
             disabledContentColor = contentColor,
             disabledContainerColor = containerColor
         ),
+        contentPadding = contentPadding,
         border = BorderStroke(borderWidth, borderColor),
         shape = shape,
     ) {
@@ -209,7 +212,6 @@ fun CircularAppLogo(modifier: Modifier = Modifier) {
 }
 
 /**
- * TODO: FIX up the BackButton Composable as it currently makes the actual arrow
  * smaller when I apply a padding to the box which is weird.
  *
  * For example after setting a size, if I give
@@ -218,7 +220,7 @@ fun CircularAppLogo(modifier: Modifier = Modifier) {
  *
  */
 @Composable
-fun BackButton(
+fun BackButtonLogInOrSignUp(
     modifier: Modifier = Modifier,
     navigateTo: (Route) -> Unit,
     route: Route,
@@ -248,6 +250,38 @@ fun BackButton(
     }
 }
 
+/**
+ * Back button exclusively for the explore page.
+ */
+@Composable
+fun BackButtonExplore(
+    modifier: Modifier = Modifier,
+    navigateTo: (Route) -> Unit,
+    route: Route,
+) {
+    Button(
+        modifier = Modifier.padding(start = 4.dp, top = 16.dp),
+        onClick = {
+            navigateTo(route)
+        },
+        contentPadding = PaddingValues(0.dp),
+        colors = ButtonColors(
+            containerColor = Color.Transparent,
+            contentColor = Color.Transparent,
+            disabledContentColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent
+        )
+    ) {
+        Surface(modifier = modifier) {
+            Image(
+                painter = painterResource(id = R.drawable.back_arrow),
+                contentDescription = "Back arrow for navigation",
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun CircularAppLogoPreview() {
@@ -257,7 +291,7 @@ fun CircularAppLogoPreview() {
 @Preview()
 @Composable
 fun BackButtonPreview() {
-    BackButton(
+    BackButtonLogInOrSignUp(
         modifier = Modifier
             .size(26.dp, 30.dp)
             .fillMaxSize(),
