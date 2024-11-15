@@ -5,4 +5,5 @@ enum class Route {
     LogIn,
     SignUp,
     Main,
+    Input
 }
