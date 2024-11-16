@@ -29,14 +29,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.formai.R
+import com.example.formai.domain.viewmodel.ExerciseType
+import com.example.formai.domain.viewmodel.InputViewModel
 import com.example.formai.navigation.Route
 import com.example.formai.ui.screens.AppButton
 import com.example.formai.ui.screens.BackButtonExplore
 
 @Composable
 fun ExploreScreen(
-    navigateTo: (Route) -> Unit
+    navigateTo: (Route) -> Unit,
+    inputViewModel: InputViewModel = hiltViewModel(),
 ) {
     Box(
         modifier = Modifier
@@ -98,7 +102,11 @@ fun ExploreScreen(
                             .fillMaxWidth()
                             .padding(start = 200.dp)
                     ) {
-                        Spacer(modifier = Modifier.size(180.dp).fillMaxWidth())
+                        Spacer(
+                            modifier = Modifier
+                                .size(180.dp)
+                                .fillMaxWidth()
+                        )
                         Text(
                             "Leg \nExercise",
                             fontSize = 26.sp,
@@ -119,19 +127,26 @@ fun ExploreScreen(
                                 .height(35.dp)
                                 .width(120.dp)
                                 .padding(start = 16.dp, end = 16.dp),
-                            onClickAction = { /** TODO: Add Navigation FOR SQUAT WORKOUT here! */ },
+                            onClickAction = {
+                                inputViewModel.setExerciseType(ExerciseType.SQUAT)
+                                navigateTo(Route.Input)
+                            },
                         ) {
-                            Row(horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier.fillMaxSize()) {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.start_icon),
                                     contentDescription = "Start Icon",
                                     modifier = Modifier.size(30.dp)
                                 )
 
-                                Text("Squat",
+                                Text(
+                                    "Squat",
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White)
+                                    color = Color.White
+                                )
                             }
                         }
                     }
@@ -175,7 +190,11 @@ fun ExploreScreen(
                             .fillMaxWidth()
                             .padding(start = 200.dp)
                     ) {
-                        Spacer(modifier = Modifier.size(180.dp).fillMaxWidth())
+                        Spacer(
+                            modifier = Modifier
+                                .size(180.dp)
+                                .fillMaxWidth()
+                        )
                         Text(
                             "Knee \nFlexion",
                             fontSize = 26.sp,
@@ -196,19 +215,26 @@ fun ExploreScreen(
                                 .height(35.dp)
                                 .width(120.dp)
                                 .padding(start = 16.dp, end = 8.dp),
-                            onClickAction = { /** TODO: Add Navigation to KNEE WORKOUT here! */ },
+                            onClickAction = {
+                                inputViewModel.setExerciseType(ExerciseType.KNEEFLEXION)
+                                navigateTo(Route.Input)
+                            },
                         ) {
-                            Row(horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier.fillMaxSize()) {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.start_icon),
                                     contentDescription = "Start Icon",
                                     modifier = Modifier.size(30.dp)
                                 )
 
-                                Text("Flexion",
+                                Text(
+                                    "Flexion",
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White)
+                                    color = Color.White
+                                )
                             }
                         }
                     }
@@ -225,5 +251,5 @@ fun ExploreScreen(
 )
 @Composable
 fun ExploreScreenPreview() {
-    ExploreScreen() {}
+    ExploreScreen({})
 }

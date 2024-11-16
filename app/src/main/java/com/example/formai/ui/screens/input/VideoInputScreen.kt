@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -21,7 +22,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.formai.R
+import com.example.formai.domain.viewmodel.InputType
 import com.example.formai.domain.viewmodel.InputViewModel
 import com.example.formai.navigation.Route
 import com.example.formai.ui.screens.AppButton
@@ -41,6 +45,8 @@ fun VideoInputScreen(
     navigateTo: (Route) -> Unit,
     inputViewModel: InputViewModel = hiltViewModel()
 ) {
+
+    val focusManager = LocalFocusManager.current
 
     BackButtonExplore(
         modifier = Modifier
@@ -56,9 +62,17 @@ fun VideoInputScreen(
         modifier = Modifier.fillMaxSize()
     ) {
 
+        val cardModifier = if (inputViewModel.getShowFileSelectButton()) {
+            Modifier
+                .height(430.dp)
+                .width(350.dp)
+        } else {
+            Modifier.size(350.dp)
+        }
+
         Card(
             elevation = CardDefaults.cardElevation(15.dp),
-            modifier = Modifier.size(350.dp),
+            modifier = cardModifier,
             colors = CardDefaults
                 .cardColors(containerColor = Color.White)
         ) {
@@ -90,9 +104,7 @@ fun VideoInputScreen(
                 Button(
                     modifier = Modifier.size(height = 50.dp, width = 140.dp),
                     onClick = {
-                        /**
-                        TODO: Update the ViewModel if the user
-                        selects this as their input */
+                        inputViewModel.setInputType(InputType.PRERECORDED)
                     },
                     shape = RoundedCornerShape(5.dp),
                     colors = ButtonColors(
@@ -125,9 +137,7 @@ fun VideoInputScreen(
                 Button(
                     modifier = Modifier.size(height = 50.dp, width = 140.dp),
                     onClick = {
-                        /**
-                        TODO: Update the ViewModel if the user
-                        selects this as their input */
+                        inputViewModel.setInputType(InputType.REALTIME)
                     },
                     shape = RoundedCornerShape(5.dp),
                     colors = ButtonColors(
@@ -156,9 +166,55 @@ fun VideoInputScreen(
                     }
                 }
             }
+
+
+            /** SELECT VIDEO FILE BUTTON */
+            if(inputViewModel.getShowFileSelectButton()) {
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(
+                    modifier = Modifier
+                        .size(height = 50.dp, width = 328.dp)
+                        .padding(start = 24.dp),
+                    onClick = {
+                        /**
+                        TODO: Update the ViewModel to know that the user needs to select a file. */
+                    },
+                    shape = RoundedCornerShape(5.dp),
+                    colors = ButtonColors(
+                        contentColor = Color.Black,
+                        containerColor = Color(0xFFD9D9D9),
+                        disabledContainerColor = Color(0xFFD9D9D9),
+                        disabledContentColor = Color.Black,
+                    ),
+                    contentPadding = PaddingValues(16.dp, 8.dp),
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.select_video_icon),
+                            contentDescription = "Camera Icon",
+                            modifier = Modifier.size(20.dp)
+                        )
+
+                        Text(
+                            "Select Video File",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+                }
+
+            }
             // Number of repetitions from the user
             Column(modifier = Modifier.fillMaxSize()) {
-                Spacer(modifier = Modifier.height(20.dp).fillMaxWidth())
+                Spacer(
+                    modifier = Modifier
+                        .height(20.dp)
+                        .fillMaxWidth()
+                )
                 Text(
                     "Number Of Repetitions",
                     fontSize = 16.sp,
@@ -170,7 +226,7 @@ fun VideoInputScreen(
                 RepetitionsTextBox(
                     value = inputViewModel.getNumRepetitions(),
                     onValueChange = { value ->
-                        if (!value.trim().isDigitsOnly()) {
+                        if (value.trim().isDigitsOnly()) {
                             inputViewModel.setNumRepetitions(value)
                         }
                     },
@@ -178,10 +234,19 @@ fun VideoInputScreen(
                         .size(328.dp, 48.dp)
                         .align(Alignment.CenterHorizontally)
                         .padding(start = 14.dp, end = 14.dp)
+                        .onFocusChanged { focusState ->
+                            if (!focusState.isFocused) {
+                                focusManager.clearFocus() // Hide keyboard when focus is lost
+                            }
+                        }
                 )
 
                 // Submit Button
-                Spacer(modifier = Modifier.fillMaxWidth().height(30.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(30.dp)
+                )
                 AppButton(
                     modifier = Modifier
                         .size(height = 50.dp, width = 130.dp)
@@ -196,7 +261,11 @@ fun VideoInputScreen(
                     containerColor = Color.Black,
                     contentPadding = PaddingValues(24.dp, 8.dp)
                 ) {
-                    Text("Submit")
+                    Text(
+                        "Submit",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
