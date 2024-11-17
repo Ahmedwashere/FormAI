@@ -253,8 +253,9 @@ fun VideoInputScreen(
                         .align(Alignment.CenterHorizontally),
                     onClickAction = {
                         /**
-                        TODO: Navigate to the
+                        TODO: Update Workout View Model With Input View Model Results
                          */
+                        navigateTo(Route.Wall)
                     },
                     shape = RoundedCornerShape(5.dp),
                     contentColor = Color.White,

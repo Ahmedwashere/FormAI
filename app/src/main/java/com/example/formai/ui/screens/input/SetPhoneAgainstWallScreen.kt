@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
@@ -31,7 +33,9 @@ import com.example.formai.ui.screens.BackButtonExplore
 fun SetPhoneAgainstWallScreen(
     navigateTo: (Route) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
         BackButtonExplore(
             modifier = Modifier
                 .size(32.dp, 37.dp)
@@ -41,34 +45,48 @@ fun SetPhoneAgainstWallScreen(
         )
 
         Text("Please Place Your\nPhone On The Ground\nTilted Towards You",
-            modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally),
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center)
 
-        Spacer(modifier = Modifier.height(30.dp).fillMaxWidth())
+        Spacer(modifier = Modifier
+            .height(30.dp)
+            .fillMaxWidth())
 
         Image(
             painter = painterResource(id = R.drawable.phone_titled_against_wall),
             contentDescription = "Phone against a wall",
-            modifier = Modifier.size(282.dp, 390.dp).clip(RoundedCornerShape(10.dp))
+            modifier = Modifier
+                .size(282.dp, 390.dp)
+                .clip(RoundedCornerShape(10.dp))
                 .align(Alignment.CenterHorizontally),
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.height(30.dp).fillMaxWidth())
+        Spacer(modifier = Modifier
+            .height(30.dp)
+            .fillMaxWidth())
 
-        Text("Please Select An Area\nWith Good Lighting",
-            modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally),
-            fontSize = 32.sp,
+        Text("A 10s timer has been set for you to position your whole body facing forward" +
+                " before the form analysis starts. Timer begins once button below is clicked.",
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally),
+            fontSize = 21.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center)
 
-        Spacer(modifier = Modifier.fillMaxWidth().height(30.dp))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp))
         
         Button(
-            onClick = { /*TODO Navigate to the Workout Screen */ },
-            modifier = Modifier.size(width = 320.dp, height = 67.dp)
+            onClick = { navigateTo(Route.Workout) },
+            modifier = Modifier
+                .size(width = 320.dp, height = 67.dp)
                 .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(14.dp),
             colors = ButtonColors(

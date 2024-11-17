@@ -5,5 +5,8 @@ enum class Route {
     LogIn,
     SignUp,
     Main,
-    Input
+    Input,
+    Wall,
+    Workout,
+    Results,
 }

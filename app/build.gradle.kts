@@ -78,6 +78,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.3")
     //Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
+    implementation(libs.pose.detection.common)
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     //Hilt Navigation Compose
     implementation(libs.androidx.hilt.navigation.compose.v100)
@@ -85,6 +86,19 @@ dependencies {
     implementation(libs.firebase.auth)
     //Serialization
     implementation(libs.serialization)
+
+    // Camerax implementation
+    val cameraxVersion = "1.3.1"
+    implementation ("androidx.camera:camera-core:${cameraxVersion}")
+    implementation ("androidx.camera:camera-camera2:${cameraxVersion}")
+    implementation ("androidx.camera:camera-view:${cameraxVersion}")
+    implementation ("androidx.camera:camera-lifecycle:$cameraxVersion")
+    // Camerax implementation
+
+    //Mediapipe implementation
+
+    implementation ("com.google.mediapipe:tasks-vision:0.10.0")
+    //Mediapipe Implementation
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
