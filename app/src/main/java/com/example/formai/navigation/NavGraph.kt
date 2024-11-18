@@ -26,7 +26,7 @@ import com.example.formai.ui.screens.signup.SignupScreen
 import com.example.formai.ui.screens.welcome.WelcomeScreen
 import com.example.formai.ui.screens.workout.CameraPreviewForWorkoutScreen
 
-@SuppressLint("RestrictedApi")
+@SuppressLint("RestrictedApi", "StateFlowValueCalledInComposition")
 @Composable
 fun navigation(): NavHostController {
     val navController = rememberNavController()
@@ -40,11 +40,9 @@ fun navigation(): NavHostController {
             Input -> navController.navigate(Input.toString())
             Wall ->
                 navController.navigate(Wall.toString()) {
-                    Log.d("BACKSTACK","How many screens are on the backstack BEFORE: ${navController.currentBackStack.value.size}")
-                    popUpTo(0) {
+                    popUpTo(navController.graph.id) {
                         inclusive = true
                     }
-                    Log.d("BACKSTACK","How many screens are on the backstack AFTER: ${navController.currentBackStack.value.size}")
                 }
 
             Workout -> navController.navigate(Workout.toString())
@@ -85,6 +83,7 @@ fun navigation(): NavHostController {
 
         composable(Wall.toString()) {
             SetPhoneAgainstWallScreen(navRoutes)
+            Log.d("BACKSTACK","How many screens are on the backstack BEFORE: ${navController.currentBackStack.value.size}")
         }
 
         composable(Workout.toString()) {

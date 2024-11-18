@@ -56,7 +56,7 @@ fun ResultsScreen(
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(90.dp)
+                .height(40.dp)
         )
         Text(
             "Workout Complete",
@@ -92,8 +92,8 @@ fun ResultsScreen(
         CircularProgressBarWithScore(completion = completion)
 
         val repsCompletedString = if (inputViewModel.getExerciseType() == ExerciseType.SQUAT)
-            "${workoutViewModel.getSquatRepetitions()} Squats out Of ${inputViewModel.getNumRepetitions()} in 60s"
-        else "${workoutViewModel.getSquatRepetitions()} Knee Curls out Of ${inputViewModel.getNumRepetitions()} in 60s"
+            "${workoutViewModel.getSquatRepetitions()} Squats out Of ${inputViewModel.getNumRepetitions()} in 30s"
+        else "${workoutViewModel.getSquatRepetitions()} Knee Curls out Of ${inputViewModel.getNumRepetitions()} in 30s"
 
         Text(
             text = repsCompletedString,
@@ -201,7 +201,7 @@ fun ResultsScreen(
         AppButton(
             contentColor = Color.Black,
             containerColor = Color.Transparent,
-            onClickAction = { /*TODO: Navigate and clear view models*/ },
+            onClickAction = { navRoutes(Route.Chatbot) },
             shape = RoundedCornerShape(5.dp),
             borderWidth = 0.3.dp,
             borderColor = Color(0xFF999999),

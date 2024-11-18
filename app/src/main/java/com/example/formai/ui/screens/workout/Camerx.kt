@@ -55,6 +55,7 @@ import com.google.mlkit.vision.pose.PoseLandmark
 import kotlinx.coroutines.delay
 import java.util.Locale
 import java.util.concurrent.Executors
+import kotlin.math.abs
 
 @Composable
 fun CameraPreviewForWorkoutScreen(
@@ -170,28 +171,38 @@ fun OverlayCanvas(
                 val leftAnkle = landmarks[PoseLandmark.LEFT_ANKLE]
 
                 val kneeAngle = viewModel.calculateAngle(leftHip, leftKnee, leftAnkle)
-                val isSquatDeepEnough = kneeAngle <= 100
-
-                Log.d("KNEE_ANGLE", "The Knee Angle is $kneeAngle.")
-                Log.d("KNEE_ANGLE", "The Squat is Deep enough: $isSquatDeepEnough")
-
-                val rightKnee = landmarks[PoseLandmark.RIGHT_KNEE]
-                val rightAnkle = landmarks[PoseLandmark.RIGHT_ANKLE]
-
-                val isKneesCollapsing =
-                    (leftKnee.x() - leftAnkle.x()) * (rightKnee.x() - rightAnkle.x()) < 0
-
-                if (isKneesCollapsing) {
-                    workoutResultViewModel.setCollapseKneeFramesCount(workoutResultViewModel.getCollapseKneeFrameCount() + 1)
-                    if (workoutResultViewModel.getCollapseKneeFrameCount() >= 3) {
-                        workoutResultViewModel.setKneeCollapsed(true)
-                    }
-                }
-
-                Log.d("KNEE_COLLAPSING", "The Knee Collapsing: $isKneesCollapsing")
 
                 // Add the Functionality of Updating the currentState: Standing, Squating, Etc
                 workoutResultViewModel.setCurrentPosition(kneeAngle)
+
+                Log.d("KNEE_ANGLE", "The Knee Angle is $kneeAngle.")
+                Log.d("KNEE_ANGLE", "The Squat is Deep enough: ${kneeAngle <= 100}")
+
+                val rightKnee = landmarks[PoseLandmark.RIGHT_KNEE]
+                val rightHip = landmarks[PoseLandmark.RIGHT_HIP]
+
+                val hipWidth = abs(leftHip.x() - rightHip.x())
+
+                // If the distance between the knees comes within a threshold of 1.1 of the hip distance,
+                // Then the knees are collapsing.
+                val minKneeDistance = hipWidth * 1.15
+
+                val kneeDistance = abs(leftKnee.x() - rightKnee.x())
+
+                val isKneesCollapsing = kneeDistance < minKneeDistance
+
+                if (isKneesCollapsing && (workoutResultViewModel.getCurrentPosition() != SquatQuality.STANDING)) {
+                    workoutResultViewModel.setCollapseKneeFramesCount(
+                        workoutResultViewModel.getCollapseKneeFrameCount() + 1
+                    )
+                    if (workoutResultViewModel.getCollapseKneeFrameCount() >= 3) {
+                        workoutResultViewModel.setKneeCollapsed(true)
+                    }
+                } else {
+                    workoutResultViewModel.setCollapseKneeFramesCount(0)
+                }
+
+                Log.d("KNEE_COLLAPSING", "The Knee Collapsing: $isKneesCollapsing")
 
                 /* Check if we are standing. If we are, then check the values of our Deep Squat Frames.
                 * If we see 3 valid frames, then increase rep count and reset the values of out deep squat
@@ -251,8 +262,8 @@ fun WorkoutScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        // Set up the 60 second time slot
-        val totalTime = 60
+        // Set up the 30 second time slot
+        val totalTime = 30
         workoutResultViewModel.setRemainingTime(totalTime)
 
         // 10-second setup period
@@ -262,9 +273,11 @@ fun WorkoutScreen(
         // 30-second active analysis period
         for (time in totalTime downTo 1) {
             workoutResultViewModel.setRemainingTime(time)
-            Log.d("INPUT_VIEW_MODEL", "The value of the input view model is: ${
-                inputViewModel.getNumRepetitions()
-            }")
+            Log.d(
+                "INPUT_VIEW_MODEL", "The value of the input view model is: ${
+                    inputViewModel.getNumRepetitions()
+                }"
+            )
             delay(1000L)
         }
 
@@ -335,9 +348,9 @@ fun WorkoutScreen(
                                 modifier = Modifier.size(30.dp)
                             )
 
-                            /** 60 seconds will be the hard coded amount of time for a set */
+                            /** 30 seconds will be the hard coded amount of time for a set */
                             Text(
-                                "60s",
+                                "30s",
                                 color = Color.White,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
@@ -369,13 +382,15 @@ fun WorkoutScreen(
                                 fontWeight = FontWeight.SemiBold,
                             )
 
-                            print("The value of the inputViewModel repetitons is: " +
-                                    "${inputViewModel.getNumRepetitions()}")
+                            print(
+                                "The value of the inputViewModel repetitions is: " +
+                                        inputViewModel.getNumRepetitions()
+                            )
                         }
                     }
 
                     CircularProgressIndicator(
-                        progress = { return@CircularProgressIndicator 1F - workoutResultViewModel.remainingTime.value / 60.0F },
+                        progress = { return@CircularProgressIndicator 1F - workoutResultViewModel.remainingTime.value / 30.0F },
                         modifier = Modifier
                             .size(160.dp)
                             .align(Alignment.Center),
@@ -408,7 +423,7 @@ fun formatSeconds(seconds: Int): String {
 @Composable
 fun WorkoutScreenPreview() {
     val workoutResultViewModel = WorkoutResultViewModel()
-    WorkoutScreen(navRoute = {},workoutResultViewModel = workoutResultViewModel) {
+    WorkoutScreen(navRoute = {}, workoutResultViewModel = workoutResultViewModel) {
         Image(
             painter = painterResource(id = R.drawable.workout_image),
             contentDescription = "Man Squatting",
