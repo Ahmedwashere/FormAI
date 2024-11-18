@@ -96,9 +96,12 @@ dependencies {
     // Camerax implementation
 
     //Mediapipe implementation
-
     implementation ("com.google.mediapipe:tasks-vision:0.10.0")
     //Mediapipe Implementation
+
+    //Gemini Dependency
+    implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
+    //Gemini Dependency
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
