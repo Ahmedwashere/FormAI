@@ -1,10 +1,13 @@
 package com.example.formai.navigation
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.formai.navigation.Route.Chatbot
 import com.example.formai.navigation.Route.Input
 import com.example.formai.navigation.Route.LogIn
 import com.example.formai.navigation.Route.Main
@@ -13,6 +16,7 @@ import com.example.formai.navigation.Route.SignUp
 import com.example.formai.navigation.Route.Wall
 import com.example.formai.navigation.Route.Welcome
 import com.example.formai.navigation.Route.Workout
+import com.example.formai.ui.screens.ChatBotScreen
 import com.example.formai.ui.screens.explore.ExploreScreen
 import com.example.formai.ui.screens.input.SetPhoneAgainstWallScreen
 import com.example.formai.ui.screens.input.VideoInputScreen
@@ -22,6 +26,7 @@ import com.example.formai.ui.screens.signup.SignupScreen
 import com.example.formai.ui.screens.welcome.WelcomeScreen
 import com.example.formai.ui.screens.workout.CameraPreviewForWorkoutScreen
 
+@SuppressLint("RestrictedApi")
 @Composable
 fun navigation(): NavHostController {
     val navController = rememberNavController()
@@ -35,9 +40,11 @@ fun navigation(): NavHostController {
             Input -> navController.navigate(Input.toString())
             Wall ->
                 navController.navigate(Wall.toString()) {
-                    popUpTo(navController.graph.id) {
+                    Log.d("BACKSTACK","How many screens are on the backstack BEFORE: ${navController.currentBackStack.value.size}")
+                    popUpTo(0) {
                         inclusive = true
                     }
+                    Log.d("BACKSTACK","How many screens are on the backstack AFTER: ${navController.currentBackStack.value.size}")
                 }
 
             Workout -> navController.navigate(Workout.toString())
@@ -47,6 +54,7 @@ fun navigation(): NavHostController {
                         inclusive = true
                     }
                 }
+            Chatbot -> navController.navigate(Chatbot.toString())
         }
     }
 
@@ -85,6 +93,10 @@ fun navigation(): NavHostController {
 
         composable(Results.toString()) {
             ResultsScreen(navRoutes)
+        }
+
+        composable(Chatbot.toString()) {
+            ChatBotScreen(navRoutes)
         }
     }
 

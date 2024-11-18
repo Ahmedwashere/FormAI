@@ -10,7 +10,7 @@ import javax.inject.Inject
 class InputViewModel @Inject constructor (): ViewModel() {
 
     private var inputType = mutableStateOf<InputType>(InputType.REALTIME)
-    private var numRepetitions = mutableStateOf("")
+    private var numRepetitions = mutableStateOf("1")
     private var showSelectFileButton = mutableStateOf(false)
     private var exerciseType = mutableStateOf(ExerciseType.SQUAT)
 
@@ -47,6 +47,13 @@ class InputViewModel @Inject constructor (): ViewModel() {
 
     fun getExerciseType(): ExerciseType {
         return this.exerciseType.value
+    }
+
+    fun clearAll() {
+        inputType.value = InputType.REALTIME
+        numRepetitions.value = "1"
+        showSelectFileButton.value = false
+        exerciseType.value = ExerciseType.SQUAT
     }
 }
 

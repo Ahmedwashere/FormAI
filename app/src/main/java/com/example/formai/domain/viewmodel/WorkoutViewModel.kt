@@ -18,7 +18,7 @@ class WorkoutResultViewModel @Inject constructor() : ViewModel() {
     var _knee_collapsed = false
     var _currPosition = SquatQuality.STANDING
     var _needs_improvement = false
-    val angle_for_needs_improvement = mutableDoubleStateOf(100.0)
+    val angleForNeedsImprovement = mutableDoubleStateOf(100.0)
     var specified_repetitions: Int? = null
     /** TODO: Add a variable to track the users deepest bad squat if needs improvement is true */
     /** TODO: Add a way to somehow track a knee alignment score. */
@@ -93,6 +93,23 @@ class WorkoutResultViewModel @Inject constructor() : ViewModel() {
     fun setRemainingTime(time: Int) {
         _remainingTime.intValue = time
     }
+
+    //Reset the states when we start a new set.
+    fun clearFields() {
+        // Reset all mutable states and variables to their default values
+        _squat_repetitions.value = 0
+        _deep_squat_frames_count.value = 0
+        _need_improvement_squat_frame_count.value = 0
+        _collapse_knee_frame_count.value = 0
+        _knee_collapsed = false
+        _currPosition = SquatQuality.STANDING
+        _needs_improvement = false
+        angleForNeedsImprovement.value = 100.0
+        specified_repetitions = null
+        _isAnalysisActive.value = false
+        _remainingTime.intValue = 30
+    }
+
 
 }
 

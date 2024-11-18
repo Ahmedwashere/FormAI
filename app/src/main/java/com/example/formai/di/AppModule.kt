@@ -4,6 +4,7 @@ import com.example.formai.domain.repository.AuthRepository
 import com.example.formai.domain.repository.AuthRepositoryImpl
 import com.example.formai.domain.viewmodel.InputViewModel
 import com.example.formai.domain.viewmodel.PoseLandmarkViewModel
+import com.example.formai.domain.viewmodel.WorkoutResultViewModel
 import com.example.formai.ui.screens.workout.PoseLandmarkerHelper
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -33,4 +34,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideInputViewModel(): InputViewModel = InputViewModel()
+
+    @Provides
+    @Singleton
+    fun provideWorkoutViewModel(): WorkoutResultViewModel = WorkoutResultViewModel()
 }

@@ -229,8 +229,8 @@ fun OverlayCanvas(
                 } else if (workoutResultViewModel.getCurrentPosition() == SquatQuality.NEEDS_IMPROVEMENT) {
                     // Increment the needs improvement frame count
                     workoutResultViewModel.setNeedImprovementSquatFramesCount(workoutResultViewModel.getNeedImprovementSquatFramesCount() + 1)
-                    if (kneeAngle > workoutResultViewModel.angle_for_needs_improvement.doubleValue && workoutResultViewModel.getNeedsImprovement()) {
-                        workoutResultViewModel.angle_for_needs_improvement.doubleValue =
+                    if (kneeAngle > workoutResultViewModel.angleForNeedsImprovement.doubleValue && workoutResultViewModel.getNeedsImprovement()) {
+                        workoutResultViewModel.angleForNeedsImprovement.doubleValue =
                             kneeAngle
                     }
                 } else {
@@ -375,12 +375,12 @@ fun WorkoutScreen(
                     }
 
                     CircularProgressIndicator(
-                        progress = { return@CircularProgressIndicator 0.70f },
+                        progress = { return@CircularProgressIndicator 1F - workoutResultViewModel.remainingTime.value / 60.0F },
                         modifier = Modifier
                             .size(160.dp)
                             .align(Alignment.Center),
                         strokeWidth = 20.dp,
-                        strokeCap = StrokeCap.Round,
+                        strokeCap = StrokeCap.Butt,
                         trackColor = Color(0xFF9F85D8),
                         color = Color.White
                     )
