@@ -92,8 +92,8 @@ fun ResultsScreen(
         CircularProgressBarWithScore(completion = completion)
 
         val repsCompletedString = if (inputViewModel.getExerciseType() == ExerciseType.SQUAT)
-            "${workoutViewModel.getSquatRepetitions()} Squats out Of ${inputViewModel.getNumRepetitions()} in 30s"
-        else "${workoutViewModel.getSquatRepetitions()} Knee Curls out Of ${inputViewModel.getNumRepetitions()} in 30s"
+            "${workoutViewModel.getSquatRepetitions()} Squats out of ${inputViewModel.getNumRepetitions()} in 30s"
+        else "${workoutViewModel.getSquatRepetitions()} Knee Curls out of ${inputViewModel.getNumRepetitions()} in 30s"
 
         Text(
             text = repsCompletedString,
@@ -136,7 +136,7 @@ fun ResultsScreen(
                 val depth =
                     if (workoutViewModel.getNeedsImprovement()) (100 / workoutViewModel.angleForNeedsImprovement.doubleValue) * 100 else 100
                 Text(
-                    "${depth}%",
+                    "${depth.toInt()}%",
                     color = Color(0xFF555555),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,

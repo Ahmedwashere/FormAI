@@ -175,10 +175,6 @@ fun LoginScreen(
 
             Log.d("Authentication", "The error message for login is: ${authViewModel.errorMessage.value}")
         }
-
-        OrWithSocialsRow(text = "Or Login With", modifier = Modifier.padding(top = 24.dp))
-
-        SocialIconsRow(modifier = Modifier.padding(8.dp))
     }
 }
 

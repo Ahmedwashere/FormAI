@@ -64,9 +64,9 @@ class WorkoutResultViewModel @Inject constructor() : ViewModel() {
     fun setCurrentPosition(value: Double) {
         if (value > 150.0) {
             _currPosition = SquatQuality.STANDING
-        } else if (value < 150.0 && value > 120.0) {
+        } else if (value < 150.0 && value > 132.0) {
             _currPosition = SquatQuality.NO_ZONE
-        } else if (value < 120.0 && value > 100.0) {
+        } else if (value < 132.0 && value > 100.0) {
             _currPosition = SquatQuality.NEEDS_IMPROVEMENT
         } else {
             _currPosition = SquatQuality.DEEP_SQUAT

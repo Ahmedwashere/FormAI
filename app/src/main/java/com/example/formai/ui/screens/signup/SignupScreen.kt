@@ -176,10 +176,6 @@ fun SignupScreen(
 
             Log.d("Authentication", "The error message is: ${authViewModel.errorMessage.value}")
         }
-
-        OrWithSocialsRow(text = "Or Sign Up With", modifier = Modifier.padding(top = 24.dp))
-
-        SocialIconsRow(modifier = Modifier.padding(8.dp))
     }
 }
 

@@ -16,7 +16,7 @@ import com.example.formai.navigation.Route.SignUp
 import com.example.formai.navigation.Route.Wall
 import com.example.formai.navigation.Route.Welcome
 import com.example.formai.navigation.Route.Workout
-import com.example.formai.ui.screens.ChatBotScreen
+import com.example.formai.ui.screens.chatbot.ChatBotScreen
 import com.example.formai.ui.screens.explore.ExploreScreen
 import com.example.formai.ui.screens.input.SetPhoneAgainstWallScreen
 import com.example.formai.ui.screens.input.VideoInputScreen
@@ -59,7 +59,7 @@ fun navigation(): NavHostController {
     NavHost(
         navController = navController,
         /** TODO: Change back to Welcome before you submit */
-        startDestination = Main.toString(),
+        startDestination = Welcome.toString(),
     ) {
         composable(Welcome.toString()) {
             WelcomeScreen(navRoutes)
